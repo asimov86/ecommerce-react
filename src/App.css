@@ -1,0 +1,12 @@
+.sidebar-left, .sidebar-right {
+  padding: 20px;
+}
+
+.sidebar-left h5 {
+  margin-bottom: 20px;
+}
+
+.footer {
+  background-color: #f8f9fa;
+  padding: 20px 0;
+}

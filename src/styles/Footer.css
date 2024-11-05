@@ -1,0 +1,30 @@
+.footer {
+    text-align: center;
+    padding: 1em 0;
+    border-top: 1px solid #eaeaea;
+    margin-top: 2em;
+    font-size: 0.9em;
+}
+  
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+  
+.text {
+    margin: 0.5em 0;
+}
+  
+.links {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+}
+  
+.link {
+    text-decoration: none;
+    color: inherit; /* Usará el color por defecto */
+}
+  
