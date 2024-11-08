@@ -1,15 +1,23 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Card, Button, Row, Col } from 'react-bootstrap';
+import { Card, Button, Row, Col, Modal } from 'react-bootstrap';
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
   const [message, setMessage] = useState('');
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchCartItems = async () => {
       try {
         const token = localStorage.getItem("token");
+
+        if (!token) {
+          setMessage("Error: No se ha iniciado sesión."); // Asignar mensaje de error
+          setShowModal(true); // Mostrar el modal
+          return;
+        }
+
         const response = await axios.get('http://localhost:5000/api/carts', {
           headers: {
             Authorization: `Bearer ${token}`,  // Enviar token en los headers
@@ -55,6 +63,11 @@ const Cart = () => {
     }
   };
 
+  // Función para cerrar el modal
+  const handleCloseModal = () => {
+    setShowModal(false); // Ocultar el modal
+  };
+
   return (
     <div className="container mt-5">
       <h2>Tu Carrito</h2>
@@ -79,6 +92,18 @@ const Cart = () => {
           </Col>
         ))}
       </Row>
+      {/* Modal para indicar que se necesita iniciar sesión */}
+      <Modal show={showModal} onHide={handleCloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Iniciar sesión requerido</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{message}</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleCloseModal}>
+            Cerrar
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

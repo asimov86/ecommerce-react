@@ -13,6 +13,7 @@ import MainLayout from './components/MainLayout'; // Importa el layout principal
 import HomePage from './pages/HomePage';
 import Header from './components/Header'; 
 import AddProductPage from './pages/addProductPage';
+import UploadJson from './pages/addProductsPage';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/change-password" element={<ProtectedRoute><MainLayout><ChangePassword /></MainLayout></ProtectedRoute>}/>
         <Route path="/cart" element={<MainLayout><Cart /></MainLayout>}/>
         <Route path="/admin/add-product" element={<AddProductPage />} />
+        <Route path="/admin/add-products" element={<UploadJson />} />
       </Routes>
     </Router>
   );

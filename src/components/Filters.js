@@ -9,11 +9,13 @@ const Filters = ({ onFilter }) => {
   };
 
   return (
-    <div className="filters">
-      <h4>Filtros</h4>
-      <label>
+    <div className="filters mb-3">
+      <label className="form-label">
         Categoría:
-        <select onChange={(e) => handleFilterChange('category', e.target.value)}>
+        <select 
+          className="form-select" 
+          onChange={(e) => handleFilterChange('category', e.target.value)}
+        >
           <option value="all">Todas</option>
           <option value="electronics">Electrónica</option>
           <option value="clothing">Ropa</option>

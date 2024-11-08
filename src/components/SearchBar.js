@@ -11,14 +11,17 @@ const SearchBar = ({ onSearch }) => {
   };
 
   return (
-    <div className="search-bar">
+    <div className="input-group mb-3">
       <input
         type="text"
+        className="form-control"
         placeholder="Buscar productos..."
         value={query}
         onChange={(e) => setQuery(e.target.value)}
       />
-      <button onClick={handleSearch}>Buscar</button>
+      <button className="btn btn-dark" onClick={handleSearch}>
+        Buscar
+      </button>
     </div>
   );
 };
