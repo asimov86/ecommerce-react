@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { Container, Form, Button, Alert } from 'react-bootstrap';
-import axios from 'axios';
+import { useProductContext } from '../context/ProductContext';
 
 const AddProductPage = () => {
+  const { addProduct } = useProductContext(); // Usamos la función del contexto
   const [productData, setProductData] = useState({
     name: '',
     description: '',
@@ -11,7 +12,6 @@ const AddProductPage = () => {
     category: '',
     imageUrl: ''
   });
-
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
@@ -25,16 +25,9 @@ const AddProductPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const result = await addProduct(productData); // Llamamos a la función del contexto
 
-    try {
-      const token = localStorage.getItem("token");  // Obtener el token de autenticación
-
-      const response = await axios.post('http://localhost:5000/api/products', productData, {
-        headers: {
-          Authorization: `Bearer ${token}`,  // Incluir token en los headers
-        },
-      });
-
+    if (result.success) {
       setMessage('Producto agregado exitosamente');
       setProductData({
         name: '',
@@ -44,9 +37,7 @@ const AddProductPage = () => {
         category: '',
         imageUrl: ''
       }); // Resetear el formulario
-
-    } catch (error) {
-      console.error('Error al agregar producto:', error);
+    } else {
       setError('Hubo un error al agregar el producto');
     }
   };
@@ -54,9 +45,6 @@ const AddProductPage = () => {
   return (
     <Container className="my-5">
       <h2>Agregar Nuevo Producto</h2>
-
-      {message && <Alert variant="success">{message}</Alert>}
-      {error && <Alert variant="danger">{error}</Alert>}
 
       <Form onSubmit={handleSubmit}>
         <Form.Group controlId="name">
@@ -130,6 +118,10 @@ const AddProductPage = () => {
           Agregar Producto
         </Button>
       </Form>
+
+      {message && <Alert variant="success">{message}</Alert>}
+      {error && <Alert variant="danger">{error}</Alert>}
+
     </Container>
   );
 };

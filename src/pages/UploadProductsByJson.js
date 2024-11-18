@@ -1,32 +1,32 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import { Form, Button, Alert, Container, Row, Col } from 'react-bootstrap';
+import { useProductContext } from '../context/ProductContext';
 
 const UploadJson = () => {
+  const { uploadProductsFromJson } = useProductContext(); // Usamos la función del contexto
   const [file, setFile] = useState(null);
   const [message, setMessage] = useState('');
   const [variant, setVariant] = useState(''); // Para cambiar el color de la alerta
 
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    const selectedFile = e.target.files[0];
+    if (selectedFile && selectedFile.type === 'application/json') {
+      setFile(selectedFile);
+    } else {
+      alert('Por favor selecciona un archivo JSON válido.');
+      setFile(null);
+    }
   };
 
   const handleUpload = async (e) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append('file', file);
-
     try {
-      const response = await axios.post('http://localhost:5000/api/products/upload-json', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      setMessage(response.data.message);
-      setVariant('success'); // Cambia el color de la alerta a verde en éxito
+      await uploadProductsFromJson(file); // Llama a la función del contexto
+      setMessage('Productos subidos exitosamente'); // Mensaje de éxito
+      setVariant('success'); // Cambia el color de la alerta
     } catch (error) {
-      setMessage('Error al cargar los productos');
-      setVariant('danger'); // Cambia el color de la alerta a rojo en error
+      setMessage('Error al subir los productos'); // Mensaje de error
+      setVariant('danger'); // Cambia el color de la alerta
     }
   };
 

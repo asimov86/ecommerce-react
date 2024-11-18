@@ -13,7 +13,7 @@ import MainLayout from './components/MainLayout'; // Importa el layout principal
 import HomePage from './pages/HomePage';
 import Header from './components/Header'; 
 import AddProductPage from './pages/addProductPage';
-import UploadJson from './pages/addProductsPage';
+import UploadJson from './pages/UploadProductsByJson';
 
 function App() {
   return (

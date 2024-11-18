@@ -1,13 +1,13 @@
 // src/components/SearchBar.js
 import React, { useState } from 'react';
+import { useProductContext } from '../context/ProductContext'; // Asegúrate de que la ruta sea correcta
 
-const SearchBar = ({ onSearch }) => {
+const SearchBar = () => {
   const [query, setQuery] = useState('');
+  const { searchProducts } = useProductContext(); // Usamos el contexto
 
   const handleSearch = () => {
-    if (onSearch) {
-      onSearch(query);
-    }
+    searchProducts(query); // Llamamos a la función de búsqueda del contexto
   };
 
   return (

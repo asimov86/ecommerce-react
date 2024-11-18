@@ -1,60 +1,18 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useCart } from '../context/CartContext';  // Importa el hook del contexto
 import { Card, Button, Row, Col, Modal } from 'react-bootstrap';
+import { useState } from 'react';
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([]);
+  const { cartItems, removeFromCart } = useCart();  // Obtén la función desde el contexto
   const [message, setMessage] = useState('');
   const [showModal, setShowModal] = useState(false);
 
-  useEffect(() => {
-    const fetchCartItems = async () => {
-      try {
-        const token = localStorage.getItem("token");
-
-        if (!token) {
-          setMessage("Error: No se ha iniciado sesión."); // Asignar mensaje de error
-          setShowModal(true); // Mostrar el modal
-          return;
-        }
-
-        const response = await axios.get('http://localhost:5000/api/carts', {
-          headers: {
-            Authorization: `Bearer ${token}`,  // Enviar token en los headers
-          },
-        });
-      if (response.data.products.length === 0) {
-        setMessage('Tu carrito está vacío.');
-      } else {
-        setCartItems(response.data.products);
-      }
-      } catch (error) {
-        setMessage('Error al obtener el carrito8.');
-      }
-    };
-
-    fetchCartItems();
-  }, []);
-
   // Función para eliminar un producto del carrito
-  const removeFromCart = async (productId) => {
+  const handleRemoveFromCart = async (productId) => {
     const confirmed = window.confirm('¿Estás seguro de que deseas eliminar este producto del carrito?');
     if (confirmed) {
       try {
-        const token = localStorage.getItem("token");
-        const data = { "productId": productId };
-        await axios.request({
-          url: 'http://localhost:5000/api/carts/remove',
-          method: 'delete',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          data: data
-        });
-        // Filtrar el producto eliminado del carrito en el estado local
-        setCartItems((prevItems) =>
-          prevItems.filter((item) => item.productId !== productId)
-        );
+        await removeFromCart(productId);  // Llama a la función del contexto
         setMessage('Producto eliminado del carrito.');
       } catch (error) {
         console.error('Error al eliminar el producto:', error);
@@ -85,7 +43,7 @@ const Cart = () => {
                   <br />
                   Cantidad: {item.quantity}
                 </Card.Text>
-                <Button variant="danger" onClick={() => removeFromCart(item.productId)}>Eliminar
+                <Button variant="danger" onClick={() => handleRemoveFromCart(item.productId)}>Eliminar
                 </Button>
               </Card.Body>
             </Card>

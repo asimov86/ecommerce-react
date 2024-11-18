@@ -6,13 +6,17 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { AuthProvider } from './context/AuthContext';  // Importa el AuthProvider
 import { CartProvider } from './context/CartContext';
+import { ProductProvider } from './context/ProductContext'; // Importa el ProductProvider
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <AuthProvider>
       <CartProvider>
-        <App />
+        <ProductProvider> {/* Envuelve App con ProductProvider */}
+          <App />
+        </ProductProvider>
       </CartProvider>
     </AuthProvider>
   </React.StrictMode>

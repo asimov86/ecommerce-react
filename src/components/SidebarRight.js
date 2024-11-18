@@ -1,17 +1,24 @@
+// src/components/SideBarRight.js
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
-import { Button, Offcanvas, ListGroup, Image } from 'react-bootstrap';
+import { Offcanvas, ListGroup, Image } from 'react-bootstrap';
+import { BsCart4 } from "react-icons/bs";
 
 const SideBarRight = () => {
   const { cartItems } = useCart();
   const [showCart, setShowCart] = useState(false);
+
   const handleClose = () => setShowCart(false);
   const handleShow = () => setShowCart(true);
+
   return (
     <>
-      <Button variant="primary" onClick={handleShow}>
-        Cart
-      </Button>
+      {/* Reemplazamos el botón por la imagen del carrito */}
+      <BsCart4
+        size={30} 
+        onClick={handleShow} 
+        style={{ cursor: 'pointer', color: 'dark' }} 
+      />
 
       <Offcanvas show={showCart} onHide={handleClose} placement="end">
         <Offcanvas.Header closeButton>
